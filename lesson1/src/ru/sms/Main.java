@@ -10,6 +10,7 @@ public class Main {
         System.out.println(arrayAvg(array));
     }
 
+    //Сложность O(log n)
     private static float pow(float number, int exponent){
         if (exponent < 0) return pow(1/number, -exponent);
         else if (exponent == 0)  return 1;
@@ -18,6 +19,7 @@ public class Main {
         else return pow(number*number, (exponent-1)/2);
     }
 
+    //Сложность O(n)
     private static int findMinimalInArray(int[] array) throws Exception {
         if (array.length == 0)
             throw new Exception("Array size is 0");
@@ -29,6 +31,7 @@ public class Main {
         return minimal;
     }
 
+    //Сложность O(n)
     private static float arrayAvg(int[] array){
         int sum = 0;
         for (int i = 0; i < array.length; i++) {
