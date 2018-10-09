@@ -1,11 +1,12 @@
 package ru.sms;
 
 public class Queue {
-    private int[] queue;
-    private int head;
-    private int tail;
-    private int size;
-    private int items;
+    private static final int SIZE_MULTIPLIER = 2;
+    protected int[] queue;
+    protected int head;
+    protected int tail;
+    protected int size;
+    protected int items;
 
     public Queue(int size) {
         this.size = size;
@@ -14,6 +15,7 @@ public class Queue {
         tail = -1;
         items = 0;
     }
+
     public boolean isEmpty() {
         return items == 0;
     }
@@ -25,24 +27,29 @@ public class Queue {
     }
     public void insert(int i) {
         if (isFull()) {
-            size *= 2;
-            int[] temp = new int[size];
-            if (tail >= head) {
-                System.arraycopy(queue, 0, temp, 0, queue.length);
-            } else {
-                System.arraycopy(queue, 0, temp, 0, tail - 1);
-                System.arraycopy(queue, head, temp,
-                        size - (queue.length - head),
-                        queue.length - head - 1);
-                head = size - head - 1;
-            }
-            queue = temp;
+            increaseQueueSize();
         }
         if (tail == size - 1)
             tail = -1;
         queue[++tail] = i;
         items++;
     }
+
+    protected void increaseQueueSize() {
+        size *= SIZE_MULTIPLIER;
+        int[] temp = new int[size];
+        if (tail >= head) {
+            System.arraycopy(queue, 0, temp, 0, queue.length);
+        } else {
+            System.arraycopy(queue, 0, temp, 0, tail - 1);
+            System.arraycopy(queue, head, temp,
+                    size - (queue.length - head),
+                    queue.length - head - 1);
+            head = size - head - 1;
+        }
+        queue = temp;
+    }
+
     public int remove() {
         if (isEmpty())
             throw new RuntimeException("Queue is empty");
